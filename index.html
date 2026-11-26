@@ -7,6 +7,8 @@
 <meta name="description" content="دليل أوراق الحكومة المصرية: بطاقة الرقم القومي وجواز السفر ورخصة القيادة. Egyptian ID, passport and license guide.">
 <meta name="theme-color" content="#12343b">
 <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,5 +30,6 @@
 <div id="printarea" class="printarea" aria-hidden="true"></div>
 <script src="data.js"></script>
 <script src="app.js"></script>
+<script>if("serviceWorker"in navigator&&location.protocol!=="file:")addEventListener("load",function(){navigator.serviceWorker.register("sw.js").catch(function(){})})</script>
 </body>
 </html>

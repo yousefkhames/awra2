@@ -19,11 +19,12 @@ ID card, passport and driving license: steps, papers to bring, fees, and a check
 - Printable checklist (clean print layout with empty boxes) and "copy as text" for WhatsApp.
 - "My dates": save the expiry date of each document, see days left, get a flag 90 days ahead, and download a calendar reminder (.ics, 60 days before expiry).
 - Arabic and English, full RTL and LTR, mobile first, keyboard friendly.
+- Works offline after the first visit and can be added to the home screen, so the checklist is there at the counter even without signal.
 - Everything saves in your browser (localStorage). No server, no account, no tracking.
 
 ## Sources and dates
 
-Every paper, step list and fee cites its sources inside the app, with the date they were checked (26 Nov 2026) and whether the source is government or press. Sources are listed in `data.js`. Where we could not confirm a figure from a reliable source (ID replacement fee, license renewal and replacement fees), the app shows no number and says so, rather than guess.
+Every paper, step list and fee cites its sources inside the app, with the date they were checked (26 Nov 2026) and whether the source is government or press. Sources are listed in `data.js`. Where we could not confirm a figure from a reliable source (ID replacement fee and papers, license renewal and replacement fees, damaged-license rules), the app shows no number and says so, rather than guess.
 
 Known disagreement: one press report from 21 Nov 2026 gave a passport fee range of 900 to 2950 EGP, while most sources repeat 1110 / 1300 / 1600 on a 705 EGP base fee. The app shows the common figures and warns about the difference.
 
@@ -38,6 +39,7 @@ node tests/e2e.js <url>          # 22 real-browser checks (needs puppeteer-core 
 
 ## Honest limits
 
+- Lost driving license papers come from two press reports (Al-Ahram Gate, 13 Mar 2026, and Youm7, 20 Oct 2026). They differ a little (prosecution approval of the loss report, clearance certificate), and the app says so. The fee is still not shown.
 - This is **not** a government site and not legal advice. Fees and rules change, and offices differ. Confirm before you pay.
 - Steps are a plain summary of what the published sources describe. Office practice can vary.
 - GitHub Pages is a demo host. Your data lives in your own browser only: clearing site data deletes it, and it does not sync between devices.

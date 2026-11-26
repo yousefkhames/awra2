@@ -11,6 +11,8 @@
     passAlmasry2: { t: { ar: 'المصري اليوم: رسوم جواز السفر والمستندات', en: 'Al-Masry Al-Youm: passport fees and documents' }, url: 'https://www.almasryalyoum.com/news/details/4416648', pub: '2026-11-21' },
     passElwatan: { t: { ar: 'الوطن: تجديد جواز السفر أونلاين', en: 'Elwatan: renewing a passport online' }, url: 'https://www.elwatannews.com/news/details/8399891', pub: '2026-11-19' },
     passFolos: { t: { ar: 'الفلوس: تجديد جواز السفر 2026 ومدة الصلاحية', en: 'Elfolos: passport renewal 2026 and validity' }, url: 'https://elfolos.com/egyptian-passport-renewal-fees-2026/', pub: '2026-10-25' },
+    licAhramLost: { t: { ar: 'بوابة الأهرام: استخراج بدل فاقد رخصة القيادة', en: 'Al-Ahram Gate: replacing a lost driving license' }, url: 'https://gate.ahram.org.eg/News/5577302.aspx', pub: '2026-03-13' },
+    licYoum7Lost: { t: { ar: 'اليوم السابع: خطوات استخراج بدل فاقد الرخصة', en: 'Youm7: steps to replace a lost license' }, url: 'https://www.youm7.com/story/2026/10/20/%D8%AE%D8%B7%D9%88%D8%A7%D8%AA-%D8%A7%D8%B3%D8%AA%D8%AE%D8%B1%D8%A7%D8%AC-%D8%A8%D8%AF%D9%84-%D9%81%D8%A7%D9%82%D8%AF-%D8%A7%D9%84%D8%B1%D8%AE%D8%B5%D8%A9-%D8%A7%D9%84%D9%82%D9%8A%D8%A7%D8%AF%D8%A9/7587260', pub: '2026-10-20' },
     licAhramFirst: { t: { ar: 'بوابة الأهرام: الرسوم والأوراق لرخصة القيادة لأول مرة', en: 'Al-Ahram Gate: first driving license papers and fees' }, url: 'https://gate.ahram.org.eg/News/5886593.aspx', pub: '2026-08-11' },
     licAhramRenew: { t: { ar: 'بوابة الأهرام: تجديد رخصة القيادة الخاصة', en: 'Al-Ahram Gate: renewing a private license' }, url: 'https://gate.ahram.org.eg/News/5811817.aspx', pub: '2026-07-16' },
     licAlex: { t: { ar: 'محافظة الإسكندرية: تجديد رخصة قيادة خاصة', en: 'Alexandria Governorate: private license renewal' }, url: 'http://www.alexandria.gov.eg/services/traffic5/traffic_services/license11.html', pub: '', official: true },
@@ -245,17 +247,23 @@
         lost: {
           title: T('بدل فاقد / تالف', 'Lost / damaged'),
           steps: [
-            T('تعرض مصر الرقمية خدمة بدل فاقد وبدل تالف لرخص القيادة.', 'Digital Egypt lists lost and damaged replacement for driving licenses.'),
-            T('اسأل وحدة المرور عن المستندات المطلوبة لحالتك قبل الذهاب.', 'Ask the traffic unit which papers your case needs before you go.'),
-            T('ادفع الرسم واستلم الإيصال.', 'Pay the fee and keep the receipt.')
+            T('اعمل محضرًا بالفقد في قسم أو مركز الشرطة المختص. تذكر الأهرام أن المحضر يُعتمد من النيابة.', 'File a loss report at the police station. Al-Ahram says the report is approved by the prosecution.'),
+            T('اطلب شهادة براءة ذمة (المخالفات المرورية) سارية، فلا بد من سداد المخالفات أولًا.', 'Get a valid traffic clearance certificate. Any traffic fines must be paid first.'),
+            T('قدّم الطلب في وحدة المرور التابعة لمحل إقامتك أو عبر بوابة مرور مصر الإلكترونية، مع الأوراق أدناه.', 'Apply at the traffic unit for your home address, or on the Egypt traffic e-portal, with the papers below.'),
+            T('ادفع الرسم واحتفظ بالإيصال حتى تستلم الرخصة البديلة.', 'Pay the fee and keep the receipt until you collect the replacement.')
           ],
           papers: [
-            { id: 'l14', t: T('المستندات والرسم: لم نتحقق منها من مصدر موثوق، اسأل وحدة المرور', 'Papers and fee: not verified from a reliable source here, ask the traffic unit'), s: 'licBiddex', unverified: true }
+            { id: 'l14', t: T('بطاقة رقم قومي سارية: صورة مع الأصل للاطلاع', 'Valid national ID: a copy, original shown'), s: 'licYoum7Lost' },
+            { id: 'l15', t: T('صورة من محضر الفقد (يعتمد من النيابة حسب الأهرام)', 'Copy of the loss report (prosecution-approved, per Al-Ahram)'), s: 'licAhramLost' },
+            { id: 'l16', t: T('شهادة براءة ذمة مرورية سارية', 'Valid traffic clearance certificate'), s: 'licYoum7Lost' },
+            { id: 'l17', t: T('صورة شخصية حديثة', 'A recent photo'), s: 'licAhramLost' },
+            { id: 'l18', t: T('نموذج الطلب من وحدة المرور', 'Application form from the traffic unit'), s: 'licAhramLost' },
+            { id: 'l19', t: T('للرخصة التالفة: أحضر الرخصة التالفة نفسها (لم نجد مصدرًا موثوقًا لباقي شروط التالف)', 'If damaged: bring the damaged license itself (no reliable source found for other damaged-license rules)'), s: 'licAhramLost', unverified: true }
           ],
           feeMode: 'none',
           fees: [],
-          notes: [T('لا نذكر رقمًا للرسم لأننا لم نتأكد منه.', 'We give no fee figure because we could not confirm it.')],
-          src: ['licBiddex']
+          notes: [T('لا نذكر رقمًا للرسم لأننا لم نتأكد منه.', 'We give no fee figure because we could not confirm it.'), T('المصدران يختلفان قليلًا في الأوراق (مثل اعتماد النيابة وبراءة الذمة)، اسأل وحدة المرور عن حالتك. ذكرت بعض المقالات شهادة طبية، ولم تذكرها المصادر الأحدث، فلم نضفها.', 'The two sources differ slightly on papers (prosecution approval, clearance certificate). Ask the traffic unit about your case. Some articles also list a medical certificate; the newer sources do not, so we left it out.')],
+          src: ['licAhramLost', 'licYoum7Lost']
         }
       }
     }
