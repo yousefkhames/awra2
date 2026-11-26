@@ -1,0 +1,47 @@
+const puppeteer = require('puppeteer-core'); const assert = require('assert'); const fs = require('fs');
+const BASE = process.argv[2] || 'http://localhost:8099/'; const SHOT = process.argv[3] || '';
+(async () => {
+  const b = await puppeteer.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox'], headless: 'new' });
+  const p = await b.newPage(); const errs = []; p.on('pageerror', e => errs.push(String(e))); p.on('console', m => m.type() === 'error' && errs.push(m.text()));
+  await p.setViewport({ width: 390, height: 844, deviceScaleFactor: 2 });
+  await p.goto(BASE, { waitUntil: 'networkidle0' });
+  const txt = s => p.$eval(s, e => e.textContent.trim());
+  let n = 0; const ok = m => { n++; console.log('ok', m); };
+  assert.strictEqual(await p.$eval('html', e => e.dir), 'rtl'); ok('starts RTL Arabic');
+  assert.strictEqual((await p.$$('.folder')).length, 3); ok('3 document folders');
+  if (SHOT) await p.screenshot({ path: SHOT + '-home.png' });
+  await p.click('.f-passport .chip'); await p.waitForSelector('.dochead');
+  assert((await txt('h1')).includes('جواز')); ok('opened passport guide');
+  assert.strictEqual(await txt('#total'), (1110).toLocaleString('ar-EG') + ' جنيه'); ok('default fee 1110');
+  await p.click('input[data-speed="x"]'); assert.strictEqual(await txt('#total'), (1600).toLocaleString('ar-EG') + ' جنيه'); ok('speed change updates total 1600');
+  const before = (await p.$$('.paper')).length; await p.click('input[data-flag="male"]'); const after = (await p.$$('.paper')).length; assert.strictEqual(after, before + 1); ok('male flag adds military paper');
+  await p.click('input[data-flag="minor"]'); assert((await p.$eval('.papers', e => e.textContent)).includes('ميلاد مميكنة')); ok('minor flag swaps in birth certificate');
+  await p.click('input[data-flag="minor"]');
+  await p.click('label:has(input[data-check="p1"])'); await p.click('label:has(input[data-check="p3"])'); await p.click('label:has(input[data-check="p4"])');
+  assert((await txt('#progtxt')).includes((3).toLocaleString('ar-EG'))); ok('3 papers checked, progress updates');
+  await p.click('label:has(input[data-step$=".s0"])'); assert(await p.$('.step.done')); ok('step ticked');
+  await p.reload({ waitUntil: 'networkidle0' }); assert(await p.$('.paper.done')); assert(await p.$('input[data-speed="x"]:checked')); ok('state persists after reload');
+  if (SHOT) { await p.screenshot({ path: SHOT + '-passport.png' }); }
+  await p.click('[data-act="copy"]'); const copied = await p.evaluate(() => window.__lastCopy); assert(copied.includes('[x]') && copied.includes('1,600') || copied.includes('١٬٦٠٠')); ok('copy-as-text has checked items and total');
+  await p.evaluate(() => { window.print = () => { window.__printed = true; }; }); await p.click('[data-act="print"]');
+  assert(await p.evaluate(() => window.__printed)); assert((await p.$eval('#printarea', e => e.innerHTML)).includes('class="cb"')); ok('print builds checklist with checkboxes');
+  await p.click('#lang'); assert.strictEqual(await p.$eval('html', e => e.dir), 'ltr'); assert((await txt('h1')) === 'Passport'); assert((await txt('#total')).includes('EGP')); ok('English switches to LTR');
+  await p.click('a[href="#/doc/license/first"]').catch(() => {});
+  await p.goto(BASE + '#/doc/license/first', { waitUntil: 'networkidle0' });
+  assert.strictEqual(await txt('#total'), '1,071.5 EGP'); ok('license itemized total 1,071.5 EGP');
+  assert((await p.$$('.srcs a')).length >= 1); assert((await p.$eval('.srcs', e => e.textContent)).includes('2026-11-26')); ok('sources with date checked shown');
+  await p.goto(BASE + '#/doc/license/renew', { waitUntil: 'networkidle0' }); assert((await p.$eval('.nofee', e => e.textContent)).includes('No figure')); ok('unverified fee shows no number');
+  await p.click('#lang');
+  await p.goto(BASE + '#/dates', { waitUntil: 'networkidle0' });
+  const soon = new Date(Date.now() + 40 * 864e5).toISOString().slice(0, 10), far = new Date(Date.now() + 900 * 864e5).toISOString().slice(0, 10), past = new Date(Date.now() - 20 * 864e5).toISOString().slice(0, 10);
+  for (const [k, v] of [['id', soon], ['passport', far], ['license', past]]) { await p.$eval(`input[data-date="${k}"]`, (e, v) => { e.value = v; e.dispatchEvent(new Event('change', { bubbles: true })); }, v); }
+  assert(await p.$('.dcard.st-soon') && await p.$('.dcard.st-ok') && await p.$('.dcard.st-expired')); ok('dates: soon / ok / expired statuses');
+  assert((await p.$$('a.btn.small')).length === 2); ok('renew buttons for soon + expired');
+  if (SHOT) await p.screenshot({ path: SHOT + '-dates.png' });
+  await p.click('a.btn.small'); await p.waitForSelector('.dochead'); ok('renew button opens guide');
+  await p.setViewport({ width: 1280, height: 900 }); if (SHOT) await p.screenshot({ path: SHOT + '-desktop.png' });
+  const overflow = await p.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth); assert(!overflow); ok('no horizontal overflow desktop');
+  await p.setViewport({ width: 360, height: 800 }); await p.goto(BASE, { waitUntil: 'networkidle0' }); assert(!(await p.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth))); ok('no horizontal overflow 360px');
+  assert.deepStrictEqual(errs, []); ok('no console errors');
+  console.log(n + ' browser checks passed'); await b.close();
+})().catch(e => { console.error('FAIL', e.message); process.exit(1); });

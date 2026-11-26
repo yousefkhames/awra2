@@ -1,0 +1,1 @@
+{"name":"awra2","version":"1.0.0","description":"Egyptian ID, passport and driving license guide","scripts":{"test":"node tests/unit.test.js"},"license":"MIT"}
