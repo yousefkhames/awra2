@@ -11,6 +11,15 @@ ID card, passport and driving license: steps, papers to bring, fees, and a check
 |---|---|---|---|
 | ![home](docs/home.png) | ![guide](docs/guide.png) | ![dates](docs/dates.png) | ![english](docs/guide-en.png) |
 
+## Screenshots
+
+Captured from the live site (https://yousefkhames.github.io/awra2/).
+
+<p>
+  <img src="docs/screenshots/live-desktop.png" alt="awra2 desktop view" width="640">
+  <img src="docs/screenshots/live-mobile.png" alt="awra2 mobile view" width="200">
+</p>
+
 ## What it does
 
 - Three documents, three cases each (first time, renewal, lost or damaged).
