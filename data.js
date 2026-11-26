@@ -16,6 +16,11 @@
     licAhramFirst: { t: { ar: 'بوابة الأهرام: الرسوم والأوراق لرخصة القيادة لأول مرة', en: 'Al-Ahram Gate: first driving license papers and fees' }, url: 'https://gate.ahram.org.eg/News/5886593.aspx', pub: '2026-08-11' },
     licAhramRenew: { t: { ar: 'بوابة الأهرام: تجديد رخصة القيادة الخاصة', en: 'Al-Ahram Gate: renewing a private license' }, url: 'https://gate.ahram.org.eg/News/5811817.aspx', pub: '2026-07-16' },
     licAlex: { t: { ar: 'محافظة الإسكندرية: تجديد رخصة قيادة خاصة', en: 'Alexandria Governorate: private license renewal' }, url: 'http://www.alexandria.gov.eg/services/traffic5/traffic_services/license11.html', pub: '', official: true },
+    moiTraffic: { t: { ar: 'وزارة الداخلية: بيان الشباك الواحد لتراخيص المرور', en: 'Ministry of Interior: one-window traffic licensing statement' }, url: 'https://www.moi.gov.eg/news/getdetails?newsId=e59ca651-7f58-45c2-9ffe-62481b6dd47f', pub: '2026-09-30', official: true },
+    licYoum7Cut: { t: { ar: 'اليوم السابع: تخفيض رسوم إصدار وتجديد رخص القيادة', en: 'Youm7: cut in license issue and renewal costs' }, url: 'https://www.youm7.com/story/2026/9/30/%D8%AA%D8%AE%D9%81%D9%8A%D8%B6-%D8%B1%D8%B3%D9%88%D9%85-%D8%A5%D8%B5%D8%AF%D8%A7%D8%B1-%D9%88%D8%AA%D8%AC%D8%AF%D9%8A%D8%AF-%D8%B1%D8%AE%D8%B5-%D8%A7%D9%84%D9%82%D9%8A%D8%A7%D8%AF%D8%A9-%D9%88%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B1%D8%A7%D8%AA-%D9%88%D8%A7%D9%84%D8%AF%D8%B1%D8%A7%D8%AC%D8%A7%D8%AA-%D8%A7%D9%84%D9%86%D8%A7%D8%B1%D9%8A%D8%A9-%D8%A5%D9%86%D9%81%D9%88/7562602', pub: '2026-09-30' },
+    licHilal: { t: { ar: 'دار الهلال: رسوم جديدة بعد قرار التخفيض', en: 'Dar Al-Hilal: new fees after the cut' }, url: 'https://darelhilal.com/News/3317341.aspx', pub: '2026-10-04' },
+    idDostor: { t: { ar: 'الدستور: رسوم استخراج بدل فاقد بطاقة الرقم القومي 2026', en: 'Dostor: national ID replacement fees 2026' }, url: 'https://www.dostor.org/5667467', pub: '2026-08-14' },
+    idAlmasryFines: { t: { ar: 'المصري اليوم: غرامات البطاقة وخطوات التجديد', en: 'Al-Masry Al-Youm: ID card fines and renewal steps' }, url: 'https://www.almasryalyoum.com/news/details/4352162', pub: '2026-09-03' },
     licBiddex: { t: { ar: 'Biddex: تجديد رخصة القيادة (مصر الرقمية)', en: 'Biddex: license renewal (Digital Egypt)' }, url: 'https://biddex.com/ar/blog/article/renewing-a-private-driving-licence-in-egypt-documents-fees-and-online-renewal', pub: '2026-10-06' }
   };
 
@@ -81,12 +86,22 @@
             T('ادفع الرسم واستلم إيصال الطلب.', 'Pay the fee and keep the receipt.')
           ],
           papers: [
-            { id: 'id5', t: T('المستندات: لم نتحقق منها من مصدر موثوق، اتصل بالمكتب أو اطلع على الخدمة الرسمية', 'Papers: not verified from a reliable source here, call the office or check the official service'), s: 'moiFaq', unverified: true }
+            { id: 'id5', t: T('البطاقة القديمة (إن وُجدت) وبياناتها', 'The old card if you have it, or its details'), s: 'idDostor' },
+            { id: 'id6', t: T('محضر إثبات الفقد (في حالة الفقد)', 'Loss report (if the card was lost)'), s: 'idDostor' },
+            { id: 'id7', t: T('قسيمة الزواج (في حالة الزواج)', 'Marriage certificate (if married)'), s: 'idDostor', c: 'married' }
           ],
-          feeMode: 'none',
-          fees: [],
-          notes: [T('رسم البدل غير مؤكد هنا. تفاوتت الأرقام المنشورة، لذلك لم نذكر رقمًا.', 'The replacement fee is not confirmed here. Published figures differed, so we give none.')],
-          src: ['moiFaq']
+          feeMode: 'options',
+          fees: [
+            { id: 'n', t: T('عادي، تسليم خلال 15 يومًا', 'Normal, delivered within 15 days'), a: 50, s: 'idDostor' },
+            { id: 'u', t: T('عاجل، تسليم خلال 3 أيام', 'Urgent, delivered within 3 days'), a: 125, s: 'idDostor' },
+            { id: 'x', t: T('خاص، تسليم خلال 24 ساعة', 'Special, delivered within 24 hours'), a: 175, s: 'idDostor' }
+          ],
+          notes: [
+            T('رسم الاستمارة هو نفسه للأولى والتجديد والبدل حسب الدستور (14 أغسطس 2026) ومصراوي (28 أغسطس 2026). ليس هذا جدول أسعار رسميًا. موقع واحد (بانكر نيوز) ذكر 175 للعاجل، فتأكد في المكتب.', 'The form price is the same for first card, renewal and replacement per Dostor (14 Aug 2026) and Masrawy (28 Aug 2026). This is not an official price list. One outlet (Banker News) gave 175 for urgent, so confirm at the office.'),
+            T('يُفرض غرامة 50 جنيهًا إن لم تستخرج البدل خلال 15 يومًا من تحرير محضر الفقد (المصري اليوم، 3 سبتمبر 2026).', 'A 50 EGP fine applies if you do not get the replacement within 15 days of the loss report (Al-Masry Al-Youm, 3 Sep 2026).'),
+            T('فئات سريعة أخرى (VIP إكسبريس 515 والفورية 800) تُذكر في الصحافة وتتوافر في بعض المراكز فقط.', 'Faster tiers (VIP Express 515, immediate 800) are reported in the press and exist only at some centers.')
+          ],
+          src: ['idDostor', 'idAlmasryFines', 'masrawy']
         }
       }
     },
@@ -239,10 +254,10 @@
           feeMode: 'none',
           fees: [],
           notes: [
-            T('لم نجد جدول رسوم موثوقًا للتجديد، فلا نذكر رقمًا. اسأل وحدة المرور.', 'We found no reliable renewal fee table, so we give no figure. Ask the traffic unit.'),
+            T('رسم التجديد لا يُحدَّد برقم واحد هنا. أعلنت الداخلية (30 سبتمبر 2026) نظام الشباك الواحد: تدفع القيمة المعلنة على اللوحة داخل وحدة المرور ولا تدفع أي مبالغ أخرى، وألغت شرط معدات السلامة. اليوم السابع (30 سبتمبر 2026) ذكر تخفيضًا يصل إلى 500 جنيه، ودار الهلال (4 أكتوبر 2026) ذكرت تجديدًا بـ 310 جنيهات بدلًا من 1250، بينما ذكرت الأهرام (16 يوليو 2026، قبل التخفيض) نحو 1105 جنيهات شاملة الكشف والشهادات. الأرقام لا تتطابق، فاقرأ اللوحة في وحدتك.', 'We give no single renewal figure. The Interior Ministry announced a one-window system on 30 Sep 2026: you pay the amount posted on the board inside the traffic unit and no other sums, and the safety-equipment requirement was dropped. Youm7 (30 Sep 2026) reported a cut of up to 500 EGP, Dar Al-Hilal (4 Oct 2026) reported renewal at 310 EGP instead of 1250, and Al-Ahram (16 Jul 2026, before the cut) gave about 1105 EGP including the medical exam and certificates. The figures do not match, so read the board at your unit.'),
             T('خدمة تجديد رخصة المركبة على مصر الرقمية شيء آخر، وهي ليست تجديد رخصة القيادة.', 'The vehicle license renewal on Digital Egypt is a different thing from renewing a driving license.')
           ],
-          src: ['licAhramRenew', 'licAlex', 'licBiddex']
+          src: ['moiTraffic', 'licYoum7Cut', 'licHilal', 'licAhramRenew', 'licAlex', 'licBiddex']
         },
         lost: {
           title: T('بدل فاقد / تالف', 'Lost / damaged'),

@@ -31,6 +31,7 @@ const BASE = process.argv[2] || 'http://localhost:8099/'; const SHOT = process.a
   assert.strictEqual(await txt('#total'), '1,071.5 EGP'); ok('license itemized total 1,071.5 EGP');
   assert((await p.$$('.srcs a')).length >= 1); assert((await p.$eval('.srcs', e => e.textContent)).includes('2026-11-26')); ok('sources with date checked shown');
   await p.goto(BASE + '#/doc/license/renew', { waitUntil: 'networkidle0' }); assert((await p.$eval('.nofee', e => e.textContent)).includes('No figure')); ok('unverified fee shows no number');
+  await p.goto(BASE + '#/doc/id/lost', { waitUntil: 'networkidle0' }); assert((await txt('#total')).includes('50')); assert((await p.$eval('main', e => e.textContent)).includes('Dostor') || (await p.$eval('main', e => e.textContent)).includes('الدستور')); ok('ID replacement shows sourced fee and source');
   await p.click('#lang');
   await p.goto(BASE + '#/dates', { waitUntil: 'networkidle0' });
   const soon = new Date(Date.now() + 40 * 864e5).toISOString().slice(0, 10), far = new Date(Date.now() + 900 * 864e5).toISOString().slice(0, 10), past = new Date(Date.now() - 20 * 864e5).toISOString().slice(0, 10);
